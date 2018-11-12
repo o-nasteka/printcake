@@ -1,0 +1,67 @@
+<ul id="mastermodule" class="nav-mastermodule list-unstyled text-center margin-bottom-2x">
+	{% if featured_status and products_featured %}<li><a data-toggle="tab" href="#featured_status" aria-expanded="true" class="btn btn-nav">{{ mastermodule_featured }}</a></li>{% endif %}
+	{% if latest_status and products_latest %}<li><a data-toggle="tab" href="#latest_status" aria-expanded="true" class="btn btn-nav">{{ mastermodule_latest }}</a></li>{% endif %}
+	{% if bestseller_status and products_bestseller %}<li><a data-toggle="tab" href="#bestseller_status" aria-expanded="true" class="btn btn-nav">{{ mastermodule_bestseller }}</a></li>{% endif %}
+	{% if special_status and products_special %}<li><a data-toggle="tab" href="#special_status" aria-expanded="true" class="btn btn-nav">{{ mastermodule_special }}</a></li>{% endif %}
+</ul>
+<div class="tab-content">
+	{% for key,value in status_block %}
+	<div id="{{ value }}" class="tab-pane">
+		<div class="row">
+			{% if value == 'featured_status' %}{% set products = products_featured %}{% endif %}
+			{% if value == 'bestseller_status' %}{% set products = products_bestseller %}{% endif %}
+			{% if value == 'latest_status' %}{% set products = products_latest %}{% endif %}
+			{% if value == 'special_status' %}{% set products = products_special %}{% endif %}
+			  {% for product in products %}
+			  <div class="product-layout col-lg-{% if setting.position == 'content_top' %}4{% endif %}{% if setting.position == 'content_bottom' %}3{% endif %} col-md-3 col-sm-6 col-xs-6 col-xm-12">
+				<div class="product-thumb transition">
+				  <div class="image">
+					<a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+					{% if product.images %}
+						{% for image in product.images %}
+							<a href="{{ product.href }}"><img src="{{ image.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a>
+						{% endfor %}
+					{% endif %}
+					<div class="button-group-hover">
+						<button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+						<button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+						<button type="button" data-toggle="tooltip" title="{{ button_quickpay }}" onclick="getajaxcallbacking('route=extension/module/quickpay&product_id={{ product.product_id }}', '{{ product.product_id }}');"><i class="fa fa-search"></i></button>
+					</div>
+					{% if product.special %}
+						<div class="sticker-special">{{ product.procent }}</div>
+					{% endif %}
+					{% if product.price %}
+						<div class="price dynamic-shadow{% if product.tax %} children-icon-arrow children-icon-top padding-right{% endif %}"{% if product.tax %} data-toggle="tooltip" type="button" data-original-title="{{ text_tax }} {{ product.tax }}"{% endif %}>
+							{% if product.special == false %}
+								{{ product.price }}
+							{% else %}
+								<span class="price-new">{{ product.special }}</span>
+							{% endif %}
+						</div>
+					{% endif %}
+				  </div>
+				  <div class="caption">
+					<div class="button-group">
+						<button type="button" onclick="cart.add('{{ product.product_id }}');" class="btn-primary-border"><i class="fa fa-shopping-cart"></i> <span class="">{{ button_cart }}</span></button>
+					</div>
+					<h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+					<p>{{ product.description }}</p>
+					{% if product.rating %}
+					<div class="rating">
+					  {% for i in 1..5 %}
+					  {% if product.rating < i %}
+					  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+					  {% else %}
+					  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+					  {% endif %}
+					  {% endfor %}
+					</div>
+					{% endif %}
+				  </div>
+				</div>
+			  </div>
+			{% endfor %}
+		</div>
+	</div>
+  {% endfor %}
+</div>

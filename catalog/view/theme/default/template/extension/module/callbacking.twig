@@ -1,0 +1,159 @@
+<div class="option-div">
+	<div class="close"><i class="fa fa-times"></i></div>
+	<div class="col-lg-12 col-sm-12">
+		<form class="" action="" method="post">
+		<div class="row"><div class="row bg-popup"><h3 class="text-center"><i></i>{{ text_callback_product }}<i></i></h3></div></div><div class="clearfix"></div><br />
+		<div class="form-group"><img src="catalog/view/theme/unitystore/image/callback.png" alt="" title="" /> <span>{{ callbacking }}</span></div><div class="clearfix"></div>
+		<div class="forming_quick col">
+			<input type="hidden" class="form-control" name="input_date" id="input_date" value="{{ date }}" />
+			<div class="form-group{% if module_callbacking_status_your_name %} required{% endif %}">
+				<div class="input-group"><span class="input-group-addon input_fio"><i class="fa fa-user"></i></span><input type="text" class="form-control" name="input_fio" id="input_fio" placeholder="{{ text_fio }}" value="" /></div>
+			</div>
+			<div class="form-group{% if module_callbacking_status_phone %} required{% endif %}">
+				<div class="input-group"><span class="input-group-addon input_phone"><i class="fa fa-phone"></i></span><input type="text" class="form-control" name="input_phone" id="input_phone" placeholder="{{ text_phone }}" value="" /></div>
+			</div>
+			<div class="form-group{% if module_callbacking_status_phone %} required{% endif %}">
+				<div class="input-group"><span class="input-group-addon input_email"><i class="fa fa-envelope-o"></i></span><input type="email" class="form-control" name="input_email" id="input_email" placeholder="{{ text_email }}" value="" /></div>
+			</div>
+			<div class="form-group">
+				<div class="input-group"><span class="input-group-addon"><i class="fa fa-commenting-o"></i></span><textarea placeholder="{{ text_comment }}" class="form-control" name="input_commenttext" id="input_commenttext"></textarea></div>
+			</div>
+			<div class="clearfix"></div>
+			<ol></ol>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="pull-left">
+						<button type="submit" class="btn btn-white pull-right" onclick="return closedivshadow();;"><i class="fa fa-sign-out"></i><span class="hidden-xs"> {{ close }}</span></button>
+					</div>
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary pull-right text-uppercase" onclick="return callbacking_button();"><i class="fa fa-envelope-o"></i><span class="hidden-xs"> {{ send }}</span></button>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div><br />
+			{% if module_callbacking_text and module_callbacking_text != "" %}
+				<div class="col-xs-12 col-sm-12 checkbox person{% if callbacking_format == 'text' %} {{ text_person }}{% endif %}">
+					{% if module_callbacking_format and module_callbacking_format == 'checkbox' %}
+					<div class="row">
+						<input type="checkbox" name="input_zachita" id="zachita" value="1" />
+						<label for="zachita"><span class="text_p">{{ callbacking_text }}</span></label>
+					</div>
+					{% endif %}
+					{% if module_callbacking_format and module_callbacking_format == 'text' %}
+						{{ callbacking_text }}
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+		</form>
+	</div>
+	<div class="clearfix"></div>
+<script ><!--
+function bluring() {
+	$('body .divshadow').remove();
+	$('body .modal-bg').remove();
+	$('.modal-bg').addClass('show');
+	$('body').prepend('<div class="divshadow"></div>');
+	$('body').append('<div class="modal-bg"></div>');
+	$('body .divshadow').addClass('show');
+	$('body .modal-bg').addClass('show');
+}
+function callbacking_button() {
+	var date = $('#input_date').val();
+	var fio = $('#input_fio').val();
+	var email = $('#input_email').val();
+	var phone = $('#input_phone').val();
+	var comment = $('#input_commenttext').val();
+	comment = encodeURIComponent(comment);
+	var zachita = '';
+	if ($('input[name=\'input_zachita\']:checked').val()) {zachita = '&zachita=' + $('input[name=\'input_zachita\']:checked').val();}
+	
+	
+	
+	$.ajax({
+		url: 'index.php?route=extension/module/callbacking/quick',
+		type: 'post',
+		data: 'name=' + fio + '&phone=' + phone + '&email=' + email + '&comment=' + comment + '&date=' + date + zachita,
+		dataType: 'json',
+		success: function(json) {
+			if (json['error']) {
+				if (json['error'] != 'empty_setting') {
+					{% if module_callbacking_status_your_name %}if (json['error']['name']) {$('.required .input_fio').addClass('red'); $('.required .input_fio').find('.fa').addClass('red'); $('#input_fio').addClass('red');} else {$('.required .input_fio').removeClass('red'); $('.required .input_fio').find('.fa').removeClass('red'); $('#input_fio').removeClass('red');}{% endif %}
+					
+					{% if module_callbacking_status_phone %}if (json['error']['phone']) {$('.required .input_phone').addClass('red'); $('.required .input_phone').find('.fa').addClass('red'); $('#input_phone').addClass('red');} else {$('.required .input_phone').removeClass('red'); $('.required .input_phone').find('.fa').removeClass('red'); $('#input_phone').removeClass('red');}{% endif %}
+					
+					{% if module_callbacking_status_email %}if (json['error']['email']) {$('.required .input_email').addClass('red'); $('.required .input_email').find('.fa').addClass('red'); $('#input_email').addClass('red');} else {$('.required .input_email').removeClass('red'); $('.required .input_email').find('.fa').removeClass('red'); $('#input_email').removeClass('red');}{% endif %}
+					
+					{% if module_callbacking_format and module_callbacking_format == 'checkbox' %}if (json['error']['zachita']) {$('.text_p').addClass('red');} else {$('.text_p').removeClass('red');}{% endif %}
+				} else {
+					$('body .divshadow').prepend('<div class="alert"><i class="fa fa-check-circle"></i> ' + json.empty + ' <button type="button" class="close"><i class="fa fa-times" aria-hidden="true"></i></button></div>');
+				}
+			}
+			if (json['message']) {
+				
+				bluring();
+				$('.divshadow').addClass("col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-8 col-xs-offset-1 col-xs-10 col-xm-12 col-xm-offset-0");
+				
+				setTimeout(function () {
+					$('body .divshadow').prepend('<div class="alert"><i class="fa fa-check-circle"></i> ' + json.message + ' <button type="button" class="close"><i class="fa fa-times" aria-hidden="true"></i></button></div>');
+				}, 800);
+				
+				setTimeout(function () {
+					closedivshadow();
+				}, 5000);
+			}
+		}
+	});
+	
+	setTimeout(function () {
+		$('body .divshadow .close').click(function() {
+			closedivshadow();
+		});
+		$(document).mouseup(function (e) {
+			var container = $('body .divshadow.show');
+			var containerfind = $('body').find('.divshadow.show').html();
+			if (containerfind != null && container.has(e.target).length === 0) {
+				closedivshadow();
+			}
+		});
+		$(document).keydown(function(e) {
+			var container = $('body .divshadow.show');
+			var containerfind = $('body').find('.divshadow.show').html();
+			if (containerfind != null && e.keyCode === 27) {
+				closedivshadow();
+				return false;
+			}
+		});
+	}, 1000);
+		
+	setTimeout(function () {
+		centering('.divshadow');
+	}, 800);
+	
+	return false;
+}
+//--></script>
+<script>
+	$('body .divshadow .close').click(function() {
+		closedivshadow();
+	});
+	$(document).mouseup(function (e) {
+		var container = $('body .divshadow.show');
+		var containerfind = $('body').find('.divshadow.show').html();
+		if (containerfind != null && container.has(e.target).length === 0) {
+			closedivshadow();
+		}
+	});
+	$(document).keydown(function(e) {
+		var container = $('body .divshadow.show');
+		var containerfind = $('body').find('.divshadow.show').html();
+		if (containerfind != null && e.keyCode === 27) {
+			closedivshadow();
+		}
+	});
+	
+	$(document).ready(function() {
+		$('body .divshadow').addClass('callbacking').addClass('col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8 col-xs-offset-1 col-xs-10');
+		centering('.divshadow');
+	});	
+</script>

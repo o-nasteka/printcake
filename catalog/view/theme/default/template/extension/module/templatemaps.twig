@@ -1,0 +1,38 @@
+<div class="col-sm-12">
+	<div class="row text-center">
+		<div class="relative">
+			<div class="maps">
+				<div class="gradient left"></div>
+				<div class="gradient right"></div>
+				<div id="map" style="width:auto; height:320px;position:relative;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix"></div>
+<script>
+    function initMap() {
+        var myLatlng = new google.maps.LatLng({{ config_geocode }});
+		var mapOptions = {
+		  zoom: 16,
+		  center: myLatlng,
+		  mapTypeId: google.maps.MapTypeId.ROADMAP,
+		  heading: 90,
+		  tilt: 45,
+		  mapTypeControl: false,
+		  zoomControlOptions: {
+				position: google.maps.ControlPosition.BOTTOM_CENTER
+			},
+		   streetViewControlOptions: {
+				position: google.maps.ControlPosition.TOP_CENTER
+			}
+		}
+		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+		var marker = new google.maps.Marker({
+			position: myLatlng
+		});
+	marker.setMap(map);
+	}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ entry_coord_key }}&callback=initMap" async defer></script>

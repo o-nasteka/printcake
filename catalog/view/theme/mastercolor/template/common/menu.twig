@@ -1,0 +1,45 @@
+{% if categories %}
+<div class="col-sm-12">
+	<div class="row-sm margin-bottom-xs">
+	  <nav id="menu" class="navbar">
+		<div class="navbar-header"><span id="category" class="visible-xs">{{ text_category }}</span>
+		  <button type="button" class="btn btn-navbar navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fa fa-bars"></i></button>
+		</div>
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<div class="container">
+				<div class="row-xs">
+				  <ul class="nav navbar-nav">
+					<li class="dropdown header-menu">
+						<a class="hidden-xs dropdown-toggle children-icon-bars children-icon-right-absolute padding-right-2x text-uppercase" data-toggle="dropdown">{{ text_category }}&nbsp;&nbsp;</a>
+						<ul class="list-group dropdown-menu hidden-xs">
+							{% for category in categories %}
+								<li class="dropdown">
+									<a href="{{ category.href }}" class="relative list-group-item{% if category.children %} dropdown-toggle children-icon-arrow children-icon-right children-icon-right-absolute padding-right{% endif %}">{{ category.name }}</a>
+									{% if category.children %}
+										<ul class="dropdown-menu podcateg">
+											{% for child in category.children %}
+												<li><a href="{{ child.href }}" class="list-group-item text-uppercase">&nbsp;&nbsp;&nbsp;- {{ child.name }}</a></li>
+											{% endfor %}
+										</ul>
+									{% endif %}
+								</li>
+							{% endfor %}
+						</ul>
+					</li>
+					{% if articles_featured %}
+						<li class="hidden-xs more_articles pull-right icons"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-chevron-down"></i></a>
+							<ul class="dropdown-menu"></ul>
+						</li>
+						{% for key,article in articles_featured %}
+							{% set qa = count_articles_featured - key %}
+							<li data-id="{{ qa }}" class="pull-right"><a href="{{ article.href }}" class="text-uppercase">{{ article.name }}&nbsp;&nbsp;</a></li>
+						{% endfor %}
+					{% endif %}
+				  </ul>
+				</div>
+			</div>
+		</div>
+	  </nav>
+	</div> 
+</div><div class="clearfix"></div>
+{% endif %}

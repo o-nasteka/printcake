@@ -1,0 +1,55 @@
+{{ newletter }}
+{{ templatemaps }}
+<footer>
+  <div class="container">
+    <div class="row">
+	  {% if informations %}
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xm-12">
+        <h5>{{ text_information }}</h5>
+        <ul class="list-unstyled">
+		  {% for information in informations %}
+          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+		  {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xm-12">
+        <h5>{{ text_service }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+        </ul>
+      </div><div class="clearfix visible-sm visible-xs"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xm-12">
+        <h5>{{ text_extra }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+          <li><a href="{{ special }}">{{ text_special }}</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col-xm-12">
+        <h5>{{ text_account }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+{% if telephone %}
+	<div class="bg-white">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6"><p>{{ powered }}</p></div>
+				<div class="col-sm-6 text-right line-height-40px font-23px"><p><i class="fa fa-phone font-23px color-white"></i> {{ telephone }}</p></div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+</body></html>

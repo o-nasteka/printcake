@@ -1,0 +1,18 @@
+<div class="row-sm categoryhome margin-bottom-2x">
+	<h3>{{ heading_title_categoryhome }}</h3>
+	<div class="row">
+		{% for category in categories %}
+			<div class="col-lg-3 col-sm-3 col-xs-6 col-xm-12{% if category.description and category.description != ".." %} margin-bottom-2x{% endif %}">
+				<div class="image text-center">
+					<a href="{{ category.href }}">{% if category.image %}<img src="{{ category.image }}" alt="" title="" class="img-responsive" />{% endif %}</a>
+					{% if category.description and category.description != ".." %}
+					<div class="description-home{% if category.description|length < category.description_all|length %} transition{% endif %}">
+						{% if category.description|length < category.description_all|length %}{{ category.description_all }}{% else %}{{ category.description }}{% endif %}
+					</div>
+					{% endif %}
+				</div>
+				<a href="{{ category.href }}" class="category_h1">{{ category.name }}</a>
+			</div>
+		{% endfor %}
+	</div>
+</div>

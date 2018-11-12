@@ -1,0 +1,27 @@
+<div id="slideshow{{ module }}" class="owl-carousel slideshow_easy" style="opacity: 1;">
+  {% for banner in banners %}
+  <div class="item">
+    {% if banner.link %}
+    <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" /></a>
+    {% else %}
+    <img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />
+    {% endif %}
+	{% if banner.title %}<div class="title_slide">{{ banner.title }}</div>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+<script><!--
+var htm = '<div class="col-sm-12"><div class="row-sm"><div id="slideshow{{ module }}" class="owl-carousel slideshow_easy" style="opacity: 1;">' + $('#slideshow{{ module }}').html() + '</div></div></div>';
+$('header + div').after(htm);
+$('#slideshow{{ module }}').owlCarousel({
+	items: 6,
+	autoPlay: 10000,
+	singleItem: true,
+	navigation: true,
+	navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
+	pagination: false
+});
+$('#menu .dropdown-menu').addClass('opacity');
+$('#menu .dropdown.header-menu .dropdown-menu.list-group li').addClass('opacity');
+$('.header-menu').addClass('open');
+--></script>

@@ -1,0 +1,29 @@
+{% if modules_news %}
+<div class="margin-bottom-2x">
+	<div id="owl-example4{{ modul }}" class="owl-carousel reviewsshop">
+	  {% for module_news in modules_news %}
+		<div class="item text-center">
+			<div class="col-sm-8 margin-auto"><div class="descrip">{{ module_news.news_text }}</div></div>
+		</div>
+	  {% endfor %}
+	</div>
+</div>
+<script>
+$(document).ready(function() {
+	$('#owl-example4{{ modul }}').wrap('<div class="container"><div class="row"></div></div>');
+	$("#owl-example4{{ modul }}").owlCarousel({
+		navigation : true,
+		pagination : true,
+		singleItem : true,
+		slideSpeed : 200,
+		paginationSpeed : 400,
+		autoPlay: 10000,
+		navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>','<i class="fa fa-chevron-right fa-5x"></i>'],
+		items : 1
+	});
+	
+	
+	$('#owl-example4{{ modul }} .owl-item').addClass('col-sm-12 dynamic-shadow big');
+});
+</script>
+{% endif %}

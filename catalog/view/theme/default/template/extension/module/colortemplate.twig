@@ -1,0 +1,44 @@
+<style>
+	{% if module_mastercolor_colorone %}
+		#menu, .btn-primary {
+			background-color: {{ module_mastercolor_colorone }};
+		}
+		.bg-template, .sticker-special {
+			background: {{ module_mastercolor_colorone }};
+		}
+		.btn-primary, .btn-primary-border, .btn.btn-border-color {
+			border-color: {{ module_mastercolor_colorone }};
+		}
+		.btn-primary-border:hover {
+			background-color: {{ module_mastercolor_colorone }};
+			border-color: {{ module_mastercolor_colorone }};
+		}
+		.option-div .bg-popup h3 {
+			background: {{ module_mastercolor_colorone }};
+		}
+		.divshadow {
+			border-color: {{ module_mastercolor_colorone }};
+		}
+	{% endif %}
+	{% if module_mastercolor_colordou %}
+		#menu .nav > li > a, .color-white {
+			color: {{ module_mastercolor_colordou }};
+		}
+		.option-div .bg-popup h3,
+		.divshadow .close .fa, .closecart .fa		{
+			color: {{ module_mastercolor_colordou }};
+		}
+	{% endif %}
+	{% if module_mastercolor_colorfri %}
+		#cart > .btn {
+			background: {{ module_mastercolor_colorfri }};
+		}
+		.category_h1 {
+			border-bottom: 2px solid {{ module_mastercolor_colorfri }};
+		}
+		.rating .fa-star,
+		.rating .fa-star + .fa-star-o {
+			color: {{ module_mastercolor_colorfri }};
+		}
+	{% endif %}
+</style>

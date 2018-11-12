@@ -1,0 +1,90 @@
+<script src="catalog/view/theme/mastercolor/js/jscolor/jscolor.js"></script>
+<div class="template-setting">
+	<div class="close-setting text-center"><i class="fa fa-cogs"></i></div>
+	<h4 class="text-center margin-bottom">{{ heading_title }}</h4>
+	<div class="col-sm-12 margin-bottom">
+		<div class="colordiv onecolor show">
+			{% for key,value in color_massiv_one %}
+				<div class="pull-left element"><input type="radio" id="mastercolor_one{{ key }}" name="module_mastercolor_color_one" data-color="{{ value }}" /><label for="mastercolor_one{{ key }}" class="text-center"><span style="background: {{ value }}"></span></label></div>
+			{% endfor %}
+		</div>
+		<div class="colordiv doucolor">
+			{% for key,value in color_massiv_dou %}
+				<div class="pull-left element"><input type="radio" id="mastercolor_dou{{ key }}" name="module_mastercolor_color_dou" data-color="{{ value }}" /><label for="mastercolor_dou{{ key }}" class="text-center"><span style="background: {{ value }}"></span></label></div>
+			{% endfor %}
+		</div>
+		<div class="colordiv fricolor">
+			{% for key,value in color_massiv_fri %}
+				<div class="pull-left element"><input type="radio" id="mastercolor_fri{{ key }}" name="module_mastercolor_color_fri" data-color="{{ value }}" /><label for="mastercolor_fri{{ key }}" class="text-center"><span style="background: {{ value }}"></span></label></div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="col-sm-12">
+		<div class="row">
+			<form method="post">
+				<div class="col-sm-8" id="append_color"></div>
+				<div class="col-sm-4">
+					<input type="text" name="module_mastercolor_colorone" maxlength="7" class="coloring_1 coloring color {hash:true}" value="{% if module_mastercolor_colorone %}{{ module_mastercolor_colorone }}{% endif %}" />
+					<input type="text" name="module_mastercolor_colordou" maxlength="7" class="coloring_2 coloring color {hash:true}" value="{% if module_mastercolor_colordou %}{{ module_mastercolor_colordou }}{% endif %}" />
+					<input type="text" name="module_mastercolor_colorfri" maxlength="7" class="coloring_3 coloring color {hash:true}" value="{% if module_mastercolor_colorfri %}{{ module_mastercolor_colorfri }}{% endif %}" />
+					<input type="hidden" name="module_mastercolor_status" value="{% if module_mastercolor_status %}{{ module_mastercolor_status }}{% endif %}" />
+					<button class="focus_div"></button>
+				</div>
+				<div class="col-sm-12 text-right">
+					<button class="btn btn-primary-border text-uppercase" id="color-button" onclick="return ajaxcolorwrite();"><i class="fa fa-envelope-o"></i> <span class="hidden-xs">{{ text_color_save }}</span></button>
+				</div><div class="clearfix"></div>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	function generetionStyleOne(colorbg) {
+		$('#menu').css('background-color', colorbg);
+		$('.bg-template').css('background', colorbg);
+		$('.sticker-special').css('background', colorbg);
+		$('.btn-primary').css('background-color', colorbg);
+		$('.btn-primary').css('border-color', colorbg);
+		$('.btn.btn-border-color').css('border-color', colorbg);
+		$('.btn-border-color').css('border-color', colorbg);
+		$('.btn-primary-border').css('border-color', colorbg);
+		$('.option-div .bg-popup h3').css('background', colorbg);
+		$('.divshadow').css('border-color', colorbg);
+		$('.btn-primary-border').hover(function(){
+			$(this).css('background-color', colorbg);
+			$(this).css('border-color', colorbg);
+		},function(){
+			$(this).css('background-color', 'inherit');
+			$(this).css('border-color', 'inherit');
+		}
+		);
+	}
+	function generetionStyleDou(colorbg) {
+		$('.option-div .bg-popup h3').css('color', colorbg);
+		$('.divshadow .close .fa').css('color', colorbg);
+		$('.closecart .fa').css('color', colorbg);
+		$('#menu .nav > li > a').css('color', colorbg);
+		$('.color-white').css('color', colorbg);
+		$('.sticker-special').css('color', colorbg);
+		$('.breadcrumb > li:first-child > a').css('color', colorbg);
+	}
+	function generetionStyleFri(colorbg) {
+		$('#cart > .btn').css('background', colorbg);
+		$('.category_h1').css('border-bottom', '2px solid ' + colorbg);
+		$('.active .btn-nav').css('border-color', colorbg);
+		$('.rating .fa-star, .rating .fa-star + .fa-star-o').css('color', colorbg);
+	}
+	function ajaxcolorwrite() {
+		$.ajax({
+			url: 'index.php?route=extension/module/mastercolor/colorwrite',
+			type:'post',
+			data: $('input[name^=module_mastercolor_colorone],input[name^=module_mastercolor_colordou],input[name^=module_mastercolor_colorfri],input[name^=module_mastercolor_status]'),
+			success: function(){
+				$('#color-button').text('{{ text_color_success }}');
+			},
+			error: function(){
+				$('#color-button').text('{{ text_color_error }}');
+			}			
+		});
+		return false;
+	}
+</script>

@@ -1,0 +1,62 @@
+<div id="cart" class="btn-group btn-block text-right">
+  <button type="button" data-toggle="dropdown" data-loading-text="{{ text_loading }}" class="btn btn-inverse btn-block btn-lg dropdown-toggle"><i class="fa fa-shopping-cart"></i> <span id="cart-total">{% if text_items %}{{ text_items }}{% else %}0{% endif %}</span></button>
+  <ul class="dropdown-menu col-sm-12 col-xs-12 hide">
+	{% if products or vouchers %}
+	<li class="btn-block">
+	  <div class="no-border col-sm-12">
+		{% for product in products %}
+			<div class="margin-bottom">
+				<div class="row">
+					<div class="text-left col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xm-12 padding">
+						{% if product.thumb %}
+							<a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a>
+						{% endif %}
+					</div>
+					<div class="text-left col-lg-6 col-md-5 col-sm-5 col-xs-5 col-xm-12 padding"><a href="{{ product.href }}"><strong>{{ product.name }}</strong></a>
+						{% if product.option %}
+							{% for option in product.option %}
+							<br />
+							- <small>{{ option.name }} {{ option.value }}</small>
+							{% endfor %}
+						{% endif %}
+						{% if product.recurring %}
+							<br />
+							- <small>{{ text_recurring }} {{ product.recurring }}</small>
+						{% endif %}
+					</div>
+					<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 col-xm-4 text-right padding">x {{ product.quantity }}</div>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xm-4 padding">{{ product.total }}</div>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-xm-4 padding"><button type="button" onclick="cart.remove('{{ product.cart_id }}');" title="{{ button_remove }}" class="btn btn-danger btn-xs btn-xm"><i class="fa fa-times fa-lg hidden-xm"></i><span class="visible-xm hidden-xs hidden-sm hidden-md hidden-lg">{{ button_remove }}</span></button></div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		{% endfor %}
+		{% for voucher in vouchers %}
+			<div>
+				<div class="text-center col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xm-12 padding"></div>
+				<div class="text-left col-lg-6 col-md-5 col-sm-5 col-xs-5 col-xm-12 padding">{{ voucher.description }}</div>
+				<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2 col-xm-4 text-right padding">x&nbsp;1</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xm-4 padding">{{ voucher.amount }}</div>
+				<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-xm-4 padding"><button type="button" onclick="voucher.remove('{{ voucher.key }}');" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-times"></i></button></div>
+			</div>
+		{% endfor %}
+	  </div>
+	</li>
+	<li class="col-sm-12 col-xs-12">
+		  {% for total in totals %}
+			<div class="col-lg-8 col-md-7 col-sm-7 col-xs-8 col-xm-7 text-right border-top-1x padding">{{ total.title }}<br /></div>
+			<div class="col-lg-4 col-md-5 col-sm-5 col-xs-4 col-xm-5 text-right border-top-1x padding">{{ total.text }}<br /></div>
+		  {% endfor %}
+		  <div class="clearfix margin-bottom"></div>
+		<p class="text-right">
+			<a onclick="deletedivcartul();" class="pull-left btn btn-danger border-radius dynamic-shadow right"><i class="fa fa-sign-out"></i> <span class="hidden-sm hidden-xs">{{ text_continue_cart }}</span></a>
+			<a href="{{ cart }}" class="btn btn-white btn-border border-radius"><i class="fa fa-shopping-cart"></i> <span class="hidden-sm hidden-xs">{{ text_cart }}</span></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="{{ checkout }}" class="btn btn-primary border-radius"><i class="fa fa-share"></i> <span class="hidden-sm hidden-xs text-uppercase">{{ text_checkout }}</span></a></p>
+	</li>
+	{% else %}
+	<li class="col-sm-12 col-xs-12 padding">
+	  <p class="text-center empty empty_cart">{{ text_empty }}</p>
+	</li>
+	{% endif %}
+  </ul>
+</div>
