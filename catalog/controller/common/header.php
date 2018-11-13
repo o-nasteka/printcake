@@ -77,6 +77,11 @@ class ControllerCommonHeader extends Controller {
 		$data['cart'] = $this->load->controller('common/cart');
 		$data['menu'] = $this->load->controller('common/menu');
 
+        // check homepage
+        $data['home_url'] = $_SERVER['REQUEST_URI'];
+
 		return $this->load->view('common/header', $data);
+
+
 	}
 }

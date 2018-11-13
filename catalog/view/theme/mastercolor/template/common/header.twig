@@ -43,6 +43,18 @@
 {{ mastercolorread }}
 </head>
 <body class="{{ class }}">
+
+
+{{ home }}
+
+
+{% if (home_url == '/' or home_url == '/index.php?route=common/home') %}
+{#home-page#}
+{% else %}
+{#not-home-page#}
+{% endif %}
+
+
 <div class="top_line"></div>
 <div class="popup-cart">{{ cart }}</div>
 <div class="mastercolor">{{ mastercolor }}</div>
