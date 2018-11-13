@@ -81,16 +81,18 @@
       <div class="col-sm-4">
         <div id="logo">
 		  {% if logo %}
+              {# check form main page or not #}
               {% if (home_url == '/' or home_url == '/index.php?route=common/home') %}
-                <a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
-              {% else %}
                 <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" />
+              {% else %}
+                <a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
               {% endif %}
           {% else %}
+              {# check form main page or not #}
             {% if (home_url == '/' or home_url == '/index.php?route=common/home') %}
-            <h1><a href="{{ home }}">{{ name }}</a></h1>
-            {% else %}
               <h1>{{ name }}</h1>
+            {% else %}
+              <h1><a href="{{ home }}">{{ name }}</a></h1>
             {% endif %}
           {% endif %}
         </div>
