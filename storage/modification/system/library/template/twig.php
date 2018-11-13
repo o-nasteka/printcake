@@ -29,14 +29,13 @@ final class Twig {
 		$loader->addPath(DIR_TEMPLATE);
 
 		// initialize Twig environment
-		$config = array('autoescape' => false, 'debug' => true); // add debug
+		$config = array('autoescape' => false);
 
 		if ($cache) {
 			$config['cache'] = DIR_CACHE;
 		}
 
 		$this->twig = new \Twig_Environment($loader, $config);
-        $this->twig->addExtension(new \Tw﻿ig_Extension_Debug()﻿); // add debug
 		
 		try {
 			// load template
