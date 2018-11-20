@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>meta_h1</name>
+	<code>meta_h1</code>
+    <author>spectre</author>
+    <version>3</version>
+    <link>https://freelancer.od.ua</link>
+        <file path="admin/view/template/catalog/product_form.twig">
+			<operation error="skip">
+				<search><![CDATA[<label class="col-sm-2 control-label" for="input-meta-description{{ language.language_id }}">{{ entry_meta_description }}</label>]]></search>
+				<add position="before" offset="1"><![CDATA[
+				  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-h1{{ language.language_id }}">H1</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="product_description[{{ language.language_id }}][meta_h1]" value="{{ product_description[language.language_id] ? product_description[language.language_id].meta_h1 }}" id="input-meta-h1{{ language.language_id }}" class="form-control" />
+					</div>
+                  </div>
+				]]></add>
+			</operation>
+		</file>
+        <file path="admin/view/template/catalog/category_form.twig">
+			<operation error="skip">
+				<search><![CDATA[<label class="col-sm-2 control-label" for="input-meta-description{{ language.language_id }}">{{ entry_meta_description }}</label>]]></search>
+				<add position="before" offset="1"><![CDATA[
+				  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-h1{{ language.language_id }}">H1</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="category_description[{{ language.language_id }}][meta_h1]" value="{{ category_description[language.language_id] ? category_description[language.language_id].meta_h1 }}" id="input-meta-h1{{ language.language_id }}" class="form-control" />
+					</div>
+                  </div>
+				]]></add>
+			</operation>
+		</file>
+        <file path="admin/view/template/catalog/information_form.twig">
+			<operation error="skip">
+				<search><![CDATA[<label class="col-sm-2 control-label" for="input-meta-description{{ language.language_id }}">{{ entry_meta_description }}</label>]]></search>
+				<add position="before" offset="1"><![CDATA[
+				  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-h1{{ language.language_id }}">H1</label>
+                    <div class="col-sm-10">
+                      <input type="text" name="information_description[{{ language.language_id }}][meta_h1]" value="{{ information_description[language.language_id] ? information_description[language.language_id].meta_h1 }}" id="input-meta-h1{{ language.language_id }}" class="form-control" />
+					</div>
+                  </div>
+				]]></add>
+			</operation>
+		</file>
+        <file path="admin/model/catalog/{product,category,information}*.php">
+			<operation error="skip">
+				<search><![CDATA[meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "']]></search>
+				<add position="replace"><![CDATA[meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "', meta_h1 = '" . $this->db->escape($value['meta_h1']) . "']]></add>
+			</operation>
+			<operation error="skip">
+				<search><![CDATA['meta_keyword'     => $result['meta_keyword']]]></search>
+				<add position="replace"><![CDATA[
+				'meta_keyword'     => $result['meta_keyword'],
+				'meta_h1'     => $result['meta_h1']
+				]]></add>
+			</operation>
+			<operation error="skip">
+				<search><![CDATA[$product_description_data = array();]]></search>
+				<add position="after"><![CDATA[
+				$query = $this->db->query("DESC `" . DB_PREFIX . "product_description`");
+				$fields = array();
+				foreach($query->rows as $row) {
+					$fields[] = $row['Field'];
+				}
+				if(!in_array("meta_h1", $fields)) {
+					$this->db->query("ALTER TABLE `" . DB_PREFIX . "product_description` ADD `meta_h1` VARCHAR(255) NOT NULL AFTER `meta_keyword`");	
+				}	
+				]]></add>
+			</operation>
+			<operation error="skip">
+				<search><![CDATA[$category_description_data = array();]]></search>
+				<add position="after"><![CDATA[
+				$query = $this->db->query("DESC `" . DB_PREFIX . "category_description`");
+				$fields = array();
+				foreach($query->rows as $row) {
+					$fields[] = $row['Field'];
+				}
+				if(!in_array("meta_h1", $fields)) {
+					$this->db->query("ALTER TABLE `" . DB_PREFIX . "category_description` ADD `meta_h1` VARCHAR(255) NOT NULL AFTER `meta_keyword`");	
+				}	
+				]]></add>
+			</operation>
+			<operation error="skip">
+				<search><![CDATA[$information_description_data = array();]]></search>
+				<add position="after"><![CDATA[
+				$query = $this->db->query("DESC `" . DB_PREFIX . "information_description`");
+				$fields = array();
+				foreach($query->rows as $row) {
+					$fields[] = $row['Field'];
+				}
+				if(!in_array("meta_h1", $fields)) {
+					$this->db->query("ALTER TABLE `" . DB_PREFIX . "information_description` ADD `meta_h1` VARCHAR(255) NOT NULL AFTER `meta_keyword`");	
+				}	
+				]]></add>
+			</operation>
+		</file>
+		<file path="catalog/model/catalog/product.php">
+			<operation error="skip">
+				<search><![CDATA['meta_keyword'     => $query->row['meta_keyword'],]]></search>
+				<add position="after"><![CDATA[
+				'meta_h1'     => $query->row['meta_h1'],
+				]]></add>
+			</operation>
+		</file>
+		<file path="catalog/controller/product/product.php">
+			<operation error="skip">
+				<search><![CDATA[$data['heading_title'] = $product_info['name'];]]></search>
+				<add position="after"><![CDATA[
+				$data['heading_title'] = $product_info['meta_h1'] ? $product_info['meta_h1'] : $product_info['name'];
+				]]></add>
+			</operation>
+		</file>
+		<file path="catalog/controller/product/category.php">
+			<operation error="skip">
+				<search><![CDATA[$data['heading_title'] = $category_info['name'];]]></search>
+				<add position="after"><![CDATA[
+				$data['heading_title'] = $category_info['meta_h1'] ? $category_info['meta_h1'] : $category_info['name'];
+				]]></add>
+			</operation>
+		</file>
+		<file path="catalog/controller/information/information.php">
+			<operation error="skip">
+				<search><![CDATA[$data['heading_title'] = $information_info['title'];]]></search>
+				<add position="after"><![CDATA[
+				$data['heading_title'] = $information_info['meta_h1'] ? $information_info['meta_h1'] : $information_info['title'];
+				]]></add>
+			</operation>
+		</file>
+</modification>
